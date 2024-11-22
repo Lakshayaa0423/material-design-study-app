@@ -1,0 +1,212 @@
+import 'package:flutter/material.dart';
+
+// Main entry point of the application
+void main() {
+  runApp(OwlMApp());
+}
+
+class OwlMApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Owl-M Study App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Roboto',
+      ),
+      home: HomeScreen(),
+    );
+  }
+}
+
+// HomeScreen that allows navigation to other sections
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Owl-M Study App'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StudyCalendarScreen()),
+                );
+              },
+              child: Text('Study Calendar'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FlashcardsScreen()),
+                );
+              },
+              child: Text('Flashcards'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotesScreen()),
+                );
+              },
+              child: Text('Notes'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Study Calendar screen (stub for now)
+class StudyCalendarScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Study Calendar'),
+      ),
+      body: Center(
+        child: Text('Your study calendar will be here'),
+      ),
+    );
+  }
+}
+
+// Flashcards screen that displays a list of flashcards
+class FlashcardsScreen extends StatelessWidget {
+  final List<Flashcard> flashcards = [
+    Flashcard(question: "What is Flutter?", answer: "A UI toolkit for building natively compiled applications."),
+    Flashcard(question: "What is Dart?", answer: "The programming language used by Flutter."),
+    Flashcard(question: "What is Material Design?", answer: "A design system developed by Google."),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flashcards'),
+      ),
+      body: ListView.builder(
+        itemCount: flashcards.length,
+        itemBuilder: (context, index) {
+          return FlashcardWidget(flashcard: flashcards[index]);
+        },
+      ),
+    );
+  }
+}
+
+// Notes screen that displays a list of notes
+class NotesScreen extends StatelessWidget {
+  final List<Note> notes = [
+    Note(title: "Study Plan", content: "Revise Flutter basics for 1 hour."),
+    Note(title: "Important topics", content: "Material Design, Dart fundamentals, Widgets"),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notes'),
+      ),
+      body: ListView.builder(
+        itemCount: notes.length,
+        itemBuilder: (context, index) {
+          return NoteCard(note: notes[index]);
+        },
+      ),
+    );
+  }
+}
+
+// Model for a flashcard
+class Flashcard {
+  final String question;
+  final String answer;
+
+  Flashcard({required this.question, required this.answer});
+}
+
+// Model for a note
+class Note {
+  final String title;
+  final String content;
+
+  Note({required this.title, required this.content});
+}
+
+// Widget to display a single flashcard
+class FlashcardWidget extends StatelessWidget {
+  final Flashcard flashcard;
+
+  FlashcardWidget({required this.flashcard});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10.0),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              flashcard.question,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(flashcard.answer),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Widget to display a single note
+class NoteCard extends StatelessWidget {
+  final Note note;
+
+  NoteCard({required this.note});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10.0),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              note.title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(note.content),
+          ],
+        ),
+      ),
+    );
+  }
+}
